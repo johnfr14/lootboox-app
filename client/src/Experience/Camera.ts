@@ -91,7 +91,7 @@ export default class Camera {
   {
     this.camAngle.unlocked = () =>
     {
-      this.controls.maxDistance = 30
+      this.controls.maxDistance = 100
       this.controls.minDistance = 0
       this.controls.minAzimuthAngle = 0
       this.controls.maxAzimuthAngle = Math.PI * 1.999
@@ -103,7 +103,7 @@ export default class Camera {
     this.camAngle.default = () =>
     {
       this.controls.minDistance = 7
-      this.controls.maxDistance = 16
+      this.controls.maxDistance = 100
       this.controls.minAzimuthAngle = 0 
       this.controls.maxAzimuthAngle = Math.PI * 1.9999
       this.controls.minPolarAngle = Math.PI * 0.2
@@ -342,7 +342,7 @@ export default class Camera {
   |__________________________________*/
      
   _CalculateIdealOffset() {
-    const idealOffset = new THREE.Vector3(0, 5, -9);
+    const idealOffset = new THREE.Vector3(0, 10, -18);
     idealOffset.applyQuaternion(this.experience.world.user?.gotchi.scene.quaternion);
     idealOffset.add(this.experience.world.user?.gotchi.scene.position);
     return idealOffset;
