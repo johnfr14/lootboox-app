@@ -70,8 +70,14 @@ export default class User {
   {
     this.gotchi.scene = this.resources.items.gotchi.scene
     this.scene.add(this.gotchi.scene)
+
     const material = new THREE.MeshStandardMaterial({ color: "white", transparent: true, opacity: 0.9, metalness: 0.2, roughness: 0.3, toneMapped: true})
-    this.gotchi.scene.children[0].children[2].children[0].material = material
+    this.gotchi.scene.getObjectByName("body").children[0].material = material
+
+    this.experience.resources.on("texturesMapped", () => {
+      console.log(this.gotchi.scene.getObjectByName("eth"))
+      this.gotchi.scene.getObjectByName("eth").material = this.experience.materials.items.portalLightMaterial
+    })
 
     this.gotchi.scene.traverse((child: any) => {
       if (child instanceof THREE.Mesh) { child.castShadow = true; child.receiveShadow = true }
@@ -84,7 +90,6 @@ export default class User {
     this.gotchi.animation        = {}
     this.gotchi.animation.mixer  = new THREE.AnimationMixer(this.gotchi.scene)
 
-    console.log(this.gotchi)
     this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[2]).play()
     
     this.gotchi.animation.action       = {}

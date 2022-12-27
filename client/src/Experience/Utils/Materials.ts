@@ -79,6 +79,7 @@ export default class Materials {
     this.items.txFailed             = new THREE.MeshStandardMaterial({ color: "red", transparent: true, opacity: 0.9, metalness: 0.7, roughness: 0.5, toneMapped: false})
   
     this.items.portalLightMaterial = new THREE.ShaderMaterial({
+      clipping: true,
       uniforms:
       {
           uTime: { value: 0.0 },
