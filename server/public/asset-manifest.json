@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.714de341.css",
+    "main.js": "/static/js/main.9197ab77.js",
+    "static/media/futuristic_set_2.wav": "/static/media/futuristic_set_2.8f52c2d2ab2d9bb7800d.wav",
+    "static/media/star.wav": "/static/media/star.ad9df21c369fbafa70f5.wav",
+    "static/media/openning_locked_chest.mp3": "/static/media/openning_locked_chest.7eeee9416623914e2452.mp3",
+    "static/media/closing_chest.mp3": "/static/media/closing_chest.2e4d31a2538bbd54e761.mp3",
+    "static/media/openning_chest.mp3": "/static/media/openning_chest.140ea28b304d6d088e37.mp3",
+    "static/media/whoosh.mp3": "/static/media/whoosh.2b3a201481865554cdfe.mp3",
+    "static/media/arcade.mp3": "/static/media/arcade.5cfb58d7625911460b39.mp3",
+    "static/media/bloop.mp3": "/static/media/bloop.708e537415d8b1dbb98a.mp3",
+    "static/media/click.mp3": "/static/media/click.75a1d422afb6185d19d0.mp3",
+    "index.html": "/index.html",
+    "main.714de341.css.map": "/static/css/main.714de341.css.map",
+    "main.9197ab77.js.map": "/static/js/main.9197ab77.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.714de341.css",
+    "static/js/main.9197ab77.js"
+  ]
+}
