@@ -166,7 +166,7 @@ export default class LootBoxScene {
       this.models.grass.material.wrapT      = THREE.RepeatWrapping
       // portal
       this.models.portal.material = this.materials.items.portalLightMaterial
-      console.log()
+      this.models.portal.material.side = THREE.DoubleSide
 
       
     })
