@@ -24,9 +24,9 @@ export default class World {
     this.resources  = this.experience.resources;
 
 
-    this.resources.on("ready", () => 
+    this.resources.on("ready", async () => 
     {
-      this.lootBoxScene   = new LootBoxScene()
+      this.lootBoxScene   = await new LootBoxScene()
       this.user           = new User();
       this.environment    = new Environment();
       this.chest          = new Chest()

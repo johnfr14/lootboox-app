@@ -184,7 +184,6 @@ export default class Contract extends EventEmitter {
           
           if (funcName === "deploy" || funcName === "import") 
           {
-            console.log("meta", this.functions)
             this.metaScreen.add(this.functions[funcName].contractFunctions)
             this.metaScreen.visible = true
           }

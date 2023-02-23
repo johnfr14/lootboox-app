@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.714de341.css",
-    "main.js": "/static/js/main.9197ab77.js",
+    "main.js": "/static/js/main.44b51541.js",
     "static/media/futuristic_set_2.wav": "/static/media/futuristic_set_2.8f52c2d2ab2d9bb7800d.wav",
     "static/media/star.wav": "/static/media/star.ad9df21c369fbafa70f5.wav",
     "static/media/openning_locked_chest.mp3": "/static/media/openning_locked_chest.7eeee9416623914e2452.mp3",
@@ -13,10 +13,10 @@
     "static/media/click.mp3": "/static/media/click.75a1d422afb6185d19d0.mp3",
     "index.html": "/index.html",
     "main.714de341.css.map": "/static/css/main.714de341.css.map",
-    "main.9197ab77.js.map": "/static/js/main.9197ab77.js.map"
+    "main.44b51541.js.map": "/static/js/main.44b51541.js.map"
   },
   "entrypoints": [
     "static/css/main.714de341.css",
-    "static/js/main.9197ab77.js"
+    "static/js/main.44b51541.js"
   ]
 }

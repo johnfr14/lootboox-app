@@ -1,10 +1,11 @@
-    import * as THREE         from "three";
+import * as THREE         from "three";
 import { Scene }          from "three";
 import { clone }          from 'three/examples/jsm/utils/SkeletonUtils.js';
 import Experience         from "../Experience";
 import Resources          from "../Utils/Resources";
 import Room               from "../Utils/Room";
 import Time               from "../Utils/Time";
+import LootBoxScene       from "./LootBoxScene";
 
 const UP    = ["ArrowUp", 'w', 'W']
 const DOWN  = ["ArrowDown", 's', 'S']
@@ -20,9 +21,11 @@ export default class Player {
   scene: Scene
   time: Time
   resources: Resources
+  lootBoxScene: LootBoxScene
 
   // Model
   fox: { [key: string]: any } = {}
+  gotchi: { [key: string]: any } = {}
   isMoving: boolean = false
   movements: { [key: string]: boolean } = {
     "ArrowUp": false, 
@@ -35,13 +38,15 @@ export default class Player {
 
   constructor(socketID: string) 
   {
-    this.socketID   = socketID
-    this.experience = Experience.Instance()
-    this.room       = Room.Instance()
-    this.scene      = this.experience.scene
-    this.time       = this.experience.time
-    this.resources  = this.experience.resources
-    this.fox.model  = this.resources.items.foxModel
+    this.socketID     = socketID
+    this.experience   = Experience.Instance()
+    this.room         = Room.Instance()
+    this.scene        = this.experience.scene
+    this.time         = this.experience.time
+    this.resources    = this.experience.resources
+    this.lootBoxScene = this.experience.world.lootBoxScene!
+    this.fox.model    = this.resources.items.foxModel
+    this.gotchi.model = this.resources.items.gotchiModel
 
     this.setGLTF()
     this.setAnimations()
@@ -49,37 +54,36 @@ export default class Player {
 
   private setGLTF(): void 
   {
-    this.fox.scene = clone(this.resources.items.foxModel.scene)
-    this.fox.scene.position.set( 0, 0, 0 );
-    this.scene.add(this.fox.scene)
+    this.gotchi.scene = clone(this.experience.world.lootBoxScene!.gotchi)
+    this.gotchi.scene.position.set( 0, 0, 0 );
+    this.scene.add(this.gotchi.scene)
   }
 
   private setAnimations(): void 
   {
-    this.fox.animation        = {}
-    this.fox.animation.mixer  = new THREE.AnimationMixer(this.fox.scene)
+    this.gotchi.animation        = {}
+    this.gotchi.animation.mixer  = new THREE.AnimationMixer(this.gotchi.scene)
     
-    this.fox.animation.action       = {}
-    this.fox.animation.action.idle  = this.fox.animation.mixer.clipAction(this.fox.model.animations[0])
-    this.fox.animation.action.walk  = this.fox.animation.mixer.clipAction(this.fox.model.animations[1])
-    this.fox.animation.action.run   = this.fox.animation.mixer.clipAction(this.fox.model.animations[2])
+    this.gotchi.animation.action       = {}
+    this.gotchi.animation.action.idle  = this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[0])
+    this.gotchi.animation.action.walk  = this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[1])
+    this.gotchi.animation.action.run   = this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[1])
 
-    this.fox.animation.action.current = this.fox.animation.action.idle
-    this.fox.animation.action.current.play()
+    this.gotchi.animation.action.current = this.gotchi.animation.action.idle
+    this.gotchi.animation.action.current.play()
   }
 
 
   onKeyup(key: string): void 
   {
-    console.log("key: ", key)
     if (UP.includes(key) || DOWN.includes(key))
     {
       UP.includes(key) ? this.movements["ArrowUp"] = false : this.movements["ArrowDown"] = false
       this.isMoving = false
       this.movementType = "idle"
-      this.fox.animation.action.current = this.fox.animation.action.idle
-      this.fox.animation.action.run.stop()
-      this.fox.animation.action.walk.stop()
+      this.gotchi.animation.action.current = this.gotchi.animation.action.idle
+      this.gotchi.animation.action.walk.stop()
+      this.gotchi.animation.action.current.play()
     }
 
     if (LEFT.includes(key) || RIGHT.includes(key))
@@ -88,15 +92,15 @@ export default class Player {
       if (!this.isMoving) 
       { 
         this.movementType = "idle"
-        this.fox.animation.action.current = this.fox.animation.action.idle
-        this.fox.animation.action.walk.stop()
+        this.gotchi.animation.action.current = this.gotchi.animation.action.idle
+        this.gotchi.animation.action.walk.stop()
+        this.gotchi.animation.action.current.play()
       }
     }
   }
 
   onKeydown(key: string): void 
   {
-    console.log("key: ", key)
     // Run
     if (UP.includes(key)) 
     {
@@ -104,9 +108,9 @@ export default class Player {
       this.movements["ArrowUp"] = true
       this.movements["ArrowDown"] = false
       this.movementType = "run"
-      this.fox.animation.action.current = this.fox.animation.action.run
-      this.fox.animation.action.current.play()
-      this.fox.animation.action.walk.stop()
+      this.gotchi.animation.action.current = this.gotchi.animation.action.run
+      this.gotchi.animation.action.current.play()
+      this.gotchi.animation.action.idle.stop()
     }
 
     // Walk
@@ -116,8 +120,9 @@ export default class Player {
       this.movements["ArrowDown"] = true
       this.movements["ArrowUp"] = false
       this.movementType = "walk"
-      this.fox.animation.action.current = this.fox.animation.action.walk
-      this.fox.animation.action.current.play()
+      this.gotchi.animation.action.current = this.gotchi.animation.action.walk
+      this.gotchi.animation.action.current.play()
+      this.gotchi.animation.action.idle.stop()
     }
 
     // Rotate left
@@ -127,8 +132,8 @@ export default class Player {
       if (!this.isMoving) 
       { 
         this.movementType = "walk"
-        this.fox.animation.action.current = this.fox.animation.action.walk
-        this.fox.animation.action.current.play() 
+        this.gotchi.animation.action.current = this.gotchi.animation.action.walk
+        this.gotchi.animation.action.current.play() 
       }
     }
 
@@ -139,22 +144,20 @@ export default class Player {
       if (!this.isMoving) 
       { 
         this.movementType = "walk"
-        this.fox.animation.action.current = this.fox.animation.action.walk
-        this.fox.animation.action.current.play()  
+        this.gotchi.animation.action.current = this.gotchi.animation.action.walk
+        this.gotchi.animation.action.current.play()  
       }
     }
   }
 
   onMove(args): void 
   {
-    this.fox.scene.position.copy(args.position)
-    this.fox.scene.rotation.copy(args.rotation)
-    console.log("position: ", this.fox.scene.position)
-    console.log("rotation: ", this.fox.scene.rotation)
+    this.gotchi.scene.position.copy(args.position)
+    this.gotchi.scene.rotation.copy(args.rotation)
   }
 
   public update(): void 
   {
-    this.fox.animation.mixer.update(this.time.deltaTime * this.movementMultiplier[this.movementType])
+    this.gotchi.animation.mixer.update(this.time.deltaTime * this.movementMultiplier[this.movementType])
   }
 }

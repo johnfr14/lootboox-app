@@ -1,5 +1,6 @@
 import * as THREE         from "three";
 import { Scene, Vector3 } from "three";
+import { clone }          from 'three/examples/jsm/utils/SkeletonUtils.js';
 import GUI                from "lil-gui";
 import Experience         from "../Experience";
 import Debug              from "../Utils/Debug";
@@ -9,6 +10,7 @@ import Wallet             from "../Utils/Wallet";
 import Camera             from "../Camera";
 import Controller         from "../Controller";
 import Room               from "../Utils/Room";
+import LootBoxScene       from "./LootBoxScene";
 
 const UP    = ["ArrowUp", 'w', 'W']
 const DOWN  = ["ArrowDown", 's', 'S']
@@ -26,6 +28,7 @@ export default class User {
   time: Time
   debug: Debug
   wallet: Wallet
+  lootBoxScene: LootBoxScene
 
   // Model
   fox: { [key: string]: any } = {}
@@ -55,8 +58,9 @@ export default class User {
     this.time         = this.experience.time
     this.camera       = this.experience.camera
     this.controller   = this.experience.controller
+    this.lootBoxScene = this.experience.world.lootBoxScene!
     this.fox.model    = this.resources.items.foxModel
-    this.gotchi.model = this.resources.items.gotchi
+    this.gotchi.model = this.resources.items.gotchiModel
     this.debug        = this.experience.debug
     this.camera.user  = this
 
@@ -68,16 +72,8 @@ export default class User {
 
   private setGLTF(): void 
   {
-    this.gotchi.scene = this.resources.items.gotchi.scene
+    this.gotchi.scene = clone(this.lootBoxScene.gotchi)
     this.scene.add(this.gotchi.scene)
-
-    const material = new THREE.MeshStandardMaterial({ color: "white", transparent: true, opacity: 0.9, metalness: 0.2, roughness: 0.3, toneMapped: true})
-    this.gotchi.scene.getObjectByName("body").children[0].material = material
-
-    this.experience.resources.on("texturesMapped", () => {
-      console.log(this.gotchi.scene.getObjectByName("eth"))
-      this.gotchi.scene.getObjectByName("eth").material = this.experience.materials.items.portalLightMaterial
-    })
 
     this.gotchi.scene.traverse((child: any) => {
       if (child instanceof THREE.Mesh) { child.castShadow = true; child.receiveShadow = true }
@@ -90,8 +86,6 @@ export default class User {
     this.gotchi.animation        = {}
     this.gotchi.animation.mixer  = new THREE.AnimationMixer(this.gotchi.scene)
 
-    this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[2]).play()
-    
     this.gotchi.animation.action       = {}
     this.gotchi.animation.action.idle  = this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[0])
     this.gotchi.animation.action.walk  = this.gotchi.animation.mixer.clipAction(this.gotchi.model.animations[1])
@@ -113,48 +107,48 @@ export default class User {
       {
         this.isMoving = true
         this.movements["ArrowUp"] = true
-          this.movements["ArrowDown"] = false
-          this.movementType = "run"
-          this.gotchi.animation.action.current = this.gotchi.animation.action.run
-          this.gotchi.animation.action.current.play()
-          this.gotchi.animation.action.idle.stop()
-        }
+        this.movements["ArrowDown"] = false
+        this.movementType = "run"
+        this.gotchi.animation.action.current = this.gotchi.animation.action.run
+        this.gotchi.animation.action.current.play()
+        this.gotchi.animation.action.idle.stop()
+      }
         
-        // Walk
-        if (DOWN.includes(event.key)) 
-        {
-          this.isMoving = true
-          this.movements["ArrowDown"] = true
-          this.movements["ArrowUp"] = false
+      // Walk
+      if (DOWN.includes(event.key)) 
+      {
+        this.isMoving = true
+        this.movements["ArrowDown"] = true
+        this.movements["ArrowUp"] = false
+        this.movementType = "walk"
+        this.gotchi.animation.action.current = this.gotchi.animation.action.walk
+        this.gotchi.animation.action.current.play()
+        this.gotchi.animation.action.idle.stop()
+      }
+
+      // Rotate left
+      if (LEFT.includes(event.key)) 
+      {
+        this.movements["ArrowLeft"] = true
+        if (!this.isMoving) 
+        { 
+          this.movementType = "walk"
+          this.gotchi.animation.action.current = this.gotchi.animation.action.walk
+          this.gotchi.animation.action.current.play() 
+        }
+      }
+
+      // Rotate right
+      if (RIGHT.includes(event.key))
+      {
+        this.movements["ArrowRight"] = true
+        if (!this.isMoving) 
+        { 
           this.movementType = "walk"
           this.gotchi.animation.action.current = this.gotchi.animation.action.walk
           this.gotchi.animation.action.current.play()
-          this.gotchi.animation.action.idle.stop()
         }
-
-        // Rotate left
-        if (LEFT.includes(event.key)) 
-        {
-          this.movements["ArrowLeft"] = true
-          if (!this.isMoving) 
-          { 
-            this.movementType = "walk"
-            this.gotchi.animation.action.current = this.gotchi.animation.action.walk
-            this.gotchi.animation.action.current.play() 
-          }
-        }
-
-        // Rotate right
-        if (RIGHT.includes(event.key))
-        {
-          this.movements["ArrowRight"] = true
-          if (!this.isMoving) 
-          { 
-            this.movementType = "walk"
-            this.gotchi.animation.action.current = this.gotchi.animation.action.walk
-            this.gotchi.animation.action.current.play()
-          }
-        }
+      }
     }) 
 
     // Player stop moving
@@ -191,7 +185,7 @@ export default class User {
   {
     const vector = new Vector3()
     const direction: THREE.Vector3 = this.gotchi.scene.getWorldDirection(vector)
-
+    
     if (this.movements.ArrowUp)
     {
       this.gotchi.scene.position.z += (this.time.deltaTime * direction.z) * 9

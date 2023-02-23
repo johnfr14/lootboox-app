@@ -71,7 +71,6 @@ function App() {
 
     experience?.resources.on("ready", () => {
       setMaterialParsed(true)
-      console.log("items: ", experience?.materials.items)
     })
 
   }, [root, toast, experience])
