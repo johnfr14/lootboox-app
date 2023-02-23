@@ -140,7 +140,7 @@ export const sources = [
     path: "models/buttonLoot-selected.gltf"
   },
   {
-    name: "gotchi",
+    name: "gotchiModel",
     type: "gltfModel",
     path: "models/gotchi.glb"
   },

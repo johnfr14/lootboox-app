@@ -20,6 +20,7 @@ export default class LootBoxScene {
   nature:     any
   steps:      any
   portal:     any
+  gotchi:     any
   walls:      {[key: string]: any} = {}
   models:     {[key: string]: any} = {}
 
@@ -49,6 +50,7 @@ export default class LootBoxScene {
     this.nature               = this.resources.items.natureModel.scene
     this.steps                = this.resources.items.stepsModel.scene
     this.portal               = this.resources.items.portalModel.scene
+    this.gotchi               = this.resources.items.gotchiModel.scene
 
     // Wall
     this.walls["wall1"]       = this.resources.items.wall1Model.scene
@@ -82,6 +84,8 @@ export default class LootBoxScene {
     this.models.armature  = this.portal.getObjectByName("armature")
     this.models.portal    = this.portal.getObjectByName("portal")
     this.models.stairs    = this.portal.getObjectByName("stairs")
+
+    
 
     this.scene.add(this.floor, this.contracts, this.house, this.lamp, this.nature, this.steps, ...Object.values(this.walls), this.portal)
   }
@@ -165,8 +169,11 @@ export default class LootBoxScene {
       this.models.grass.material.wrapS      = THREE.RepeatWrapping
       this.models.grass.material.wrapT      = THREE.RepeatWrapping
       // portal
-      this.models.portal.material = this.materials.items.portalLightMaterial
-      this.models.portal.material.side = THREE.DoubleSide
+      this.models.portal.material       = this.materials.items.portalLightMaterial
+      this.models.portal.material.side  = THREE.DoubleSide
+      // gotchi
+      this.gotchi.getObjectByName("body").children[0].material = this.materials.items.gotchiBody
+      this.gotchi.getObjectByName("eth").material              = this.materials.items.portalLightMaterial
 
       
     })

@@ -220,6 +220,7 @@ export default class Materials {
           gl_FragColor = vec4(color, 1.0);
       }`
   })
+  this.items.gotchiBody = new THREE.MeshStandardMaterial({ color: "white", transparent: true, opacity: 0.9, metalness: 0.2, roughness: 0.3, toneMapped: true})
 
     this.resources.trigger("texturesMapped")
   }

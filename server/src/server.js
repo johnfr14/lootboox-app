@@ -1,4 +1,4 @@
-const api     = require("./api")
+const app     = require("./app")
 const http   = require('http');
 const fs      = require("fs");
 const io      = require('socket.io');
@@ -6,13 +6,9 @@ const sockets = require('./sockets');
 
 const PORT = 8000;
 
-const httpServer = http.createServer(api);
+const httpServer = http.createServer(app);
+const socketServer  = io(httpServer);
 
-const socketServer  = io(httpServer, {
-  cors: {
-    origin: "https://loot-box-sample.netlify.app/"
-  }
-});
 
 httpServer.listen(PORT);
 console.log(`Listening on port ${PORT}...`);
