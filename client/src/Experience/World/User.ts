@@ -9,7 +9,7 @@ import Time               from "../Utils/Time";
 import Wallet             from "../Utils/Wallet";
 import Camera             from "../Camera";
 import Controller         from "../Controller";
-import Room               from "../Utils/Room";
+// import Room               from "../Utils/Room";
 import LootBoxScene       from "./LootBoxScene";
 
 const UP    = ["ArrowUp", 'w', 'W']
@@ -20,7 +20,7 @@ const RIGHT = ["ArrowRight", 'd', 'D']
 export default class User {
   // Class
   experience: Experience
-  room: Room
+  // room: Room
   scene: Scene
   resources: Resources
   camera: Camera
@@ -51,7 +51,7 @@ export default class User {
   constructor() 
   {
     this.experience   = Experience.Instance()
-    this.room         = Room.Instance()
+    // this.room         = Room.Instance()
     this.wallet       = new Wallet(this)
     this.scene        = this.experience.scene
     this.resources    = this.experience.resources
@@ -67,7 +67,7 @@ export default class User {
     this.setGLTF()
     this.setAnimations()
     this.setActions()
-    this.room.listen()
+    // this.room.listen()
   }
 
   private setGLTF(): void 
@@ -100,7 +100,7 @@ export default class User {
     // Player is moving
     window.addEventListener("keydown", (event) => 
     {
-      this.room.socket.emit("keydown", event.key)
+      // this.room.socket.emit("keydown", event.key)
       
       // Run
       if (UP.includes(event.key)) 
@@ -154,7 +154,7 @@ export default class User {
     // Player stop moving
     window.addEventListener("keyup", (event) => 
     {
-      this.room.socket.emit("keyup", event.key)
+      // this.room.socket.emit("keyup", event.key)
 
       if (UP.includes(event.key) || DOWN.includes(event.key))
       {
@@ -190,26 +190,26 @@ export default class User {
     {
       this.gotchi.scene.position.z += (this.time.deltaTime * direction.z) * 9
       this.gotchi.scene.position.x += (this.time.deltaTime * direction.x) * 9
-      this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
+      // this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
     }
 
     if (this.movements.ArrowDown)
     {
       this.gotchi.scene.position.z -= (this.time.deltaTime * direction.z) * 3
       this.gotchi.scene.position.x -= (this.time.deltaTime * direction.x) * 3
-      this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
+      // this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
     }
 
     if (this.movements.ArrowLeft)
     {
       this.gotchi.scene.rotation.y += this.time.deltaTime * 3
-      this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
+      // this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
     }
 
     if (this.movements.ArrowRight)
     {
       this.gotchi.scene.rotation.y -= this.time.deltaTime * 3
-      this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
+      // this.room.socket.emit("move", this.gotchi.scene.position, this.gotchi.scene.rotation)
     }
   }
 

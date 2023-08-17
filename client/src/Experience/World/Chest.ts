@@ -70,7 +70,7 @@ export default class Chest {
     this.chestStructure = this.chestScene.getObjectByName("Object_7")!
     this.resource       = this.resources.items.scene
 
-    this.outlineChest   = this.experience.root["outlineChestHover"]
+    // this.outlineChest   = this.experience.root["outlineChestHover"]
 
     this.setGLTF()
     this.setLootButton()
@@ -84,8 +84,8 @@ export default class Chest {
     this.chestModel.scene.rotation.y = -(Math.PI * 0.25)
     this.originPos.copy(this.chestModel.scene.position)
 
-    this.chestStructure.layers.enable(1)
-    this.chestStructure.layers.disableAll()
+    // this.chestStructure.layers.enable(1)
+    // this.chestStructure.layers.disableAll()
     
     this.chestStructure.name = "chest"
 
@@ -326,7 +326,7 @@ export default class Chest {
     }
 
     // Set selction for layer 2 & disable all object3d's layer
-    this.outlineChest.selection.set(this.raycaster.objectsToTest)
+    // this.outlineChest.selection.set(this.raycaster.objectsToTest)
     this.raycaster.objectsToTest.forEach(object3D => object3D.layers.disable(2))
   }
 

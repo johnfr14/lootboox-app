@@ -3,7 +3,7 @@ import { Scene }          from "three";
 import { clone }          from 'three/examples/jsm/utils/SkeletonUtils.js';
 import Experience         from "../Experience";
 import Resources          from "../Utils/Resources";
-import Room               from "../Utils/Room";
+// import Room               from "../Utils/Room";
 import Time               from "../Utils/Time";
 import LootBoxScene       from "./LootBoxScene";
 
@@ -17,7 +17,7 @@ export default class Player {
 
   // Class
   experience: Experience
-  room: Room
+  // room: Room
   scene: Scene
   time: Time
   resources: Resources
@@ -40,7 +40,7 @@ export default class Player {
   {
     this.socketID     = socketID
     this.experience   = Experience.Instance()
-    this.room         = Room.Instance()
+    // this.room         = Room.Instance()
     this.scene        = this.experience.scene
     this.time         = this.experience.time
     this.resources    = this.experience.resources

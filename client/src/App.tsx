@@ -3,7 +3,8 @@ import { useToast }                       from "@chakra-ui/react"
 import { useControls }                    from 'leva';
 import { extend, useThree, useFrame }     from "@react-three/fiber";
 import { OrbitControls, Stars, Sparkles } from "@react-three/drei"
-import { Bloom, EffectComposer, Outline } from '@react-three/postprocessing'
+// import { EffectComposer } from '@react-three/postprocessing'
+// import { Bloom, EffectComposer, Outline } from '@react-three/postprocessing'
 import Experience               from "./Experience/Experience";
 import LevaHelper               from "./helper/LevaHelper";
 
@@ -51,7 +52,7 @@ function App() {
   const inputsFunctionRef           = useRef<any>()
   const outLineRef                  = useRef<any>()
   const outLineChestRef             = useRef<any>()
-  const composerRef                 = useRef<any>()
+  // const composerRef                 = useRef<any>()
   const chestRef                    = useRef<any>()
   const erc20Ref                    = useRef<any>()
   const erc721Ref                   = useRef<any>()
@@ -90,13 +91,13 @@ function App() {
   })
 
 
-  const { intensity, luminanceThreshold, luminanceSmoothing } = useControls('bloom', {
+  // const { intensity, luminanceThreshold, luminanceSmoothing } = useControls('bloom', {
 
-    intensity:            { value: 2,     min: 0, max: 10, step: 0.1 },
-    luminanceThreshold:   { value: 0.9,   min: 0, max: 1             },
-    luminanceSmoothing:   { value: 0.025, min: 0, max: 1             },
+  //   intensity:            { value: 2,     min: 0, max: 10, step: 0.1 },
+  //   luminanceThreshold:   { value: 0.9,   min: 0, max: 1             },
+  //   luminanceSmoothing:   { value: 0.025, min: 0, max: 1             },
 
-  })
+  // })
 
 
   return (
@@ -107,8 +108,9 @@ function App() {
       <Stars ref={starsRef} radius={radius} depth={depth} count={count} factor={factor} saturation={saturation} speed={speed} />
       
 
-      <EffectComposer ref={composerRef} autoClear={false}>
-        <Outline
+      
+      {/* <EffectComposer ref={composerRef} autoClear={false}> */}
+        {/* <Outline
             ref={outLineRef}
             selection={[]}
             selectionLayer={ 1 }
@@ -116,8 +118,8 @@ function App() {
             edgeStrength={2.5}
             visibleEdgeColor={0xffffff}
             hiddenEdgeColor={0x22090a}
-         />
-        <Outline
+         /> */}
+        {/* <Outline
             ref={outLineChestRef}
             selection={[]}
             selectionLayer={ 2 }
@@ -125,10 +127,11 @@ function App() {
             blur={true}
             visibleEdgeColor={0x7aaeff}
             hiddenEdgeColor={0x22090a}
-         />
+         /> */}
       
-        <Bloom mipmapBlur intensity={ intensity } luminanceThreshold={ luminanceThreshold } luminanceSmoothing={ luminanceSmoothing } />
-      </EffectComposer>
+        {/* <Bloom mipmapBlur intensity={ intensity } luminanceThreshold={ luminanceThreshold } luminanceSmoothing={ luminanceSmoothing } />  */}
+        {/* </EffectComposer>  */}
+       
 
       <Sparkles size={4}  scale={[25,4,20]} position={[-5,1.5,-15]} count={ 50 }/>
 

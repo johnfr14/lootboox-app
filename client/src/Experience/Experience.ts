@@ -12,14 +12,14 @@ import Factory        from "./Utils/Factory"
 import Materials      from "./Utils/Materials"
 import Toast          from "./Utils/Toast"
 import Time           from "./Utils/Time"
-import Room           from "./Utils/Room"
+// import Room           from "./Utils/Room"
 import World          from "./World/World"
 
 export default class Experience {
   private static _instance: Experience | null;
 
   root: RootState
-  room: Room
+  // room: Room
   toast: Toast
   debug: Debug
   time: Time
@@ -40,7 +40,7 @@ export default class Experience {
     // Singleton
     this.root             = root
     Experience._instance  = this
-    this.room             = new Room()
+    // this.room             = new Room()
     
     // loading 
     this.resources = new Resources(sources)
@@ -73,7 +73,7 @@ export default class Experience {
   update(): void {
     this.time.tick()
     this.camera.update()
-    this.room.update()
+    // this.room.update()
     this.world.update()
     this.raycaster.update()
   }

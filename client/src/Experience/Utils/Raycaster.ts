@@ -104,8 +104,8 @@ export default class Raycaster extends EventEmitter{
       if (obj3d instanceof THREE.SkinnedMesh) { this.objectsToTest.push(obj3d) }
     })
 
-    this.experience.root["outlineHover"].selection.set(this.objectsToTest)
-    this.disableLayer(1)
+    // this.experience.root["outlineHover"].selection.set(this.objectsToTest)
+    // this.disableLayer(1)
   }
 
   private setWindowListener()
